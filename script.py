@@ -1,14 +1,13 @@
 import sqlite3
 import uuid
 
-from utils.helpers.xml_helper import XMLHelper
-from app.models.contrevenant import Contrevenant
+from utils.xml_helper import XMLHelper
 
 url = """http://donnees.ville.montreal.qc.ca/dataset/a5c1f0b9-261f-4247-99d8-f28da5000688/resource/92719d9b-8bf2-4dfd-b8e0-1021ffcaee2f/download/inspection-aliments-contrevenants.xml"""
 xml = XMLHelper.getXML(url)
 dictionary = XMLHelper.makeDict(xml)['contrevenants']['contrevenant']
 
-con = sqlite3.connect("./app/db/tpinf5190.db")
+con = sqlite3.connect("./webapp/db/tpinf5190.db")
 cur = con.cursor()
 list_contrevenants = []
 for row in dictionary:
