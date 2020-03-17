@@ -33,3 +33,18 @@ def search(**kwargs):
                                     row[9], row[0])
         contrevenants.append(contrevenant)
     return contrevenants
+
+
+def get_all_contrevenants():
+    connection = (TpInf5190Db()).get_connection()
+    curs = connection.cursor()
+    sqlQuery = "SELECT * FROM Contrevenants"
+    curs.execute(sqlQuery)
+    rows = curs.fetchall()
+    contrevenants = []
+    for row in rows:
+        contrevenant = Contrevenant(row[1], row[2], row[3], row[4],
+                                    row[5], row[6], row[7], row[8],
+                                    row[9], row[0])
+        contrevenants.append(contrevenant)
+    return contrevenants
