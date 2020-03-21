@@ -1,4 +1,5 @@
 import os
+
 from flask import Flask, render_template, g
 
 from Jobs.import_data_Job import ImportDataJob
@@ -15,7 +16,6 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.disconnect()
-    job.stop()
 
 
 @app.errorhandler(404)

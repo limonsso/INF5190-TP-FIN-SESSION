@@ -19,7 +19,7 @@ class DevelopmentConfig(Config):
     FLASK_DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, './db/inf5190h20.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
+    BABEL_DEFAULT_LOCALE = 'fr'
 
 class ProductionConfig(Config):
     DEBUG = False
