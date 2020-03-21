@@ -1,5 +1,5 @@
-from webapp.db.tpinf5190_db import TpInf5190Db
-from webapp.models.contrevenant import Contrevenant
+from db.tpinf5190_db import TpInf5190Db
+from models.contrevenant import Contrevenant
 
 
 def search(**kwargs):
@@ -40,6 +40,22 @@ def get_all_contrevenants():
     curs = connection.cursor()
     sqlQuery = "SELECT * FROM Contrevenants"
     curs.execute(sqlQuery)
+    rows = curs.fetchall()
+    contrevenants = []
+    for row in rows:
+        contrevenant = Contrevenant(row[1], row[2], row[3], row[4],
+                                    row[5], row[6], row[7], row[8],
+                                    row[9], row[0])
+        contrevenants.append(contrevenant)
+    return contrevenants
+
+
+def get_all_contrevenant_between_date(du, au):
+    print(f"du {du} au {au}")
+    connection = (TpInf5190Db()).get_connection()
+    curs = connection.cursor()
+    sqlQuery = "SELECT * FROM Contrevenants WHERE date_infraction BETWEEN ? AND ? ORDER BY date_infraction DESC"
+    curs.execute(sqlQuery,(du,au))
     rows = curs.fetchall()
     contrevenants = []
     for row in rows:

@@ -1,7 +1,7 @@
 from flask import render_template, request
 
 from webapp import app
-from webapp.services.contrevenant_service import search
+from services.contrevenant_service import search
 
 
 @app.route('/')

@@ -8,7 +8,7 @@ class TpInf5190Db:
 
     def get_connection(self):
         if self.connection is None:
-            self.connection = sqlite3.connect('./webapp/db/tpinf5190.db')
+            self.connection = sqlite3.connect('./db/tpinf5190.db')
         return self.connection
 
     def disconnect(self):

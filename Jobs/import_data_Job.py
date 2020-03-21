@@ -21,6 +21,3 @@ class ImportDataJob:
         self.scheduler.start()
         # Shut down the scheduler when exiting the app
         atexit.register(lambda: self.scheduler.shutdown())
-
-    def stop(self):
-        self.scheduler.shutdown()

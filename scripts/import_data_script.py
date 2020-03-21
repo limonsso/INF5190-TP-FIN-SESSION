@@ -1,9 +1,12 @@
 import sqlite3
 import uuid
 
+import dateparser
+
+from db.tpinf5190_db import TpInf5190Db
 from utils.xml_helper import XMLHelper
-from webapp.models.contrevenant import Contrevenant, is_equal
-from webapp.services.contrevenant_service import get_all_contrevenants
+from models.contrevenant import Contrevenant, is_equal
+from services.contrevenant_service import get_all_contrevenants
 
 
 def get_contrevenants_from_server():
@@ -29,11 +32,13 @@ def insert_contrevenants_to_db(list_contrevenants):
         if value.__len__() == 0:
             new_contrevenant = (
                 f"{uuid.uuid1()}", contrevenant.proprietaire, contrevenant.categorie, contrevenant.etablissement,
-                contrevenant.adresse, contrevenant.ville, contrevenant.description, contrevenant.date_jugement,
-                contrevenant.date_infraction, contrevenant.montant)
+                contrevenant.adresse, contrevenant.ville, contrevenant.description,
+                f"{dateparser.parse(contrevenant.date_infraction).date()}",
+                f"{dateparser.parse(contrevenant.date_jugement).date()}",
+                contrevenant.montant)
             contrevenants_to_insert.append(new_contrevenant)
             print(new_contrevenant)
-    con = sqlite3.connect("./webapp/db/tpinf5190.db")
+    con = (TpInf5190Db()).get_connection()
     cur = con.cursor()
     cur.executemany("INSERT INTO contrevenants VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", contrevenants_to_insert)
     con.commit()
