@@ -51,7 +51,6 @@ def get_all_contrevenants():
 
 
 def get_all_contrevenant_between_date(du, au):
-    print(f"du {du} au {au}")
     connection = (TpInf5190Db()).get_connection()
     curs = connection.cursor()
     sqlQuery = "SELECT * FROM Contrevenants WHERE date_infraction BETWEEN ? AND ? ORDER BY date_infraction DESC"
