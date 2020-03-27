@@ -37,7 +37,7 @@ def insert_contrevenants_to_db(list_contrevenants):
                 f"{dateparser.parse(contrevenant.date_jugement).date()}",
                 contrevenant.montant)
             contrevenants_to_insert.append(new_contrevenant)
-            print(new_contrevenant)
+            #print(new_contrevenant)
     con = (TpInf5190Db()).get_connection()
     cur = con.cursor()
     cur.executemany("INSERT INTO contrevenants VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", contrevenants_to_insert)

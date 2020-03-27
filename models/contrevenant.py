@@ -1,5 +1,6 @@
 import uuid
 
+import dateparser
 
 class Contrevenant(object):
 
@@ -20,7 +21,7 @@ class Contrevenant(object):
 def is_equal(contrevenant_1, contrevenant_2):
     if (contrevenant_1.etablissement == contrevenant_2.etablissement
             and contrevenant_1.adresse == contrevenant_2.adresse
-            and contrevenant_1.date_infraction == contrevenant_2.date_infraction):
+            and contrevenant_1.date_infraction == f"{dateparser.parse(contrevenant_2.date_infraction).date()}"):
         return True
     else:
         return False
