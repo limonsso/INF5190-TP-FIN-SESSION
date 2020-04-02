@@ -1,0 +1,61 @@
+{% block edit_contrevenant %}
+    <!-- Modal -->
+    <div class="modal fade" id="edit_contrevenant" tabindex="-1" role="dialog"
+         aria-hidden="true" data-id>
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contrevenant-etablissement"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-dismissible alert-success alert-update-success" style="display: none">
+                        <strong>Supper!</strong> Le contrevenant a bien été mis a jour.
+                    </div>
+                    <form class="contrevenantEditionForm">
+                        <input type="hidden" id="contrevenant-id">
+                        <div class="form-group">
+                            <label class="col-form-label">Propriétaire:</label>
+                            <input type="text" class="form-control" id="contrevenant-proprietaire" disabled="">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="contrevenant-description" name="contrevenant_description"
+                                      style="height: 200px"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label class="col-form-label">Date de infraction:</label>
+                                <input type="date" class="form-control" id="contrevenant-date-infraction" disabled="">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="col-form-label">Date de jugement:</label>
+                                <input type="date" class="form-control" id="contrevenant-date-jugement"
+                                       name="contrevenant_date_jugement">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label class="col-form-label">Montant:</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="contrevenant-montant"
+                                           name="contrevenant_montant" aria-label="Amount (to the nearest dollar)"
+                                           min="0">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-success" id="btnUpdateContrevenant">Mettre à jour</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

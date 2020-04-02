@@ -1,4 +1,4 @@
-import sqlite3
+from datetime import date
 import uuid
 
 import dateparser
@@ -35,12 +35,13 @@ def insert_contrevenants_to_db(list_contrevenants):
                 contrevenant.adresse, contrevenant.ville, contrevenant.description,
                 f"{dateparser.parse(contrevenant.date_infraction).date()}",
                 f"{dateparser.parse(contrevenant.date_jugement).date()}",
-                contrevenant.montant)
+                contrevenant.montant, 0, 0, None, date.today())
             contrevenants_to_insert.append(new_contrevenant)
-            #print(new_contrevenant)
+            # print(new_contrevenant)
     con = (TpInf5190Db()).get_connection()
     cur = con.cursor()
-    cur.executemany("INSERT INTO contrevenants VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", contrevenants_to_insert)
+    cur.executemany("INSERT INTO contrevenants VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    contrevenants_to_insert)
     con.commit()
     print(f"{contrevenants_to_insert.__len__()} nouveaux enregistrements ajoutés")
 

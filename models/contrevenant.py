@@ -1,4 +1,5 @@
 import uuid
+from datetime import date
 
 import dateparser
 
@@ -16,11 +17,15 @@ class Contrevenant(object):
         self.date_jugement = date_jugement
         self.date_infraction = date_infraction
         self.montant = montant
+        self.has_been_deleted = 0
+        self.is_local_data = 1
+        self.modification_date = ''
+        self.creation_date = date.today()
 
 
 def is_equal(contrevenant_1, contrevenant_2):
     if (contrevenant_1.etablissement == contrevenant_2.etablissement
-            and contrevenant_1.adresse == contrevenant_2.adresse
+            and contrevenant_1.proprietaire == contrevenant_2.proprietaire
             and contrevenant_1.date_infraction == f"{dateparser.parse(contrevenant_2.date_infraction).date()}"):
         return True
     else:
