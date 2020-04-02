@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootswatch/css/bootswatch.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/font-awesome/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/sweetalert2@9.10.7/sweetalert2.min.css') }}">
+    <script src="{{ url_for('static', filename='lib/sweetalert2@9.10.7/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/jquery/jquery-3.4.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/bootstrapvalidator/js/bootstrapValidator.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
 
-    <script src="{{ url_for('static', filename='lib/jquery/jquery-3.4.1.js') }}"></script>
     <meta charset="UTF-8">
     <title>TP-FIN-SESSOIN</title>
 </head>
@@ -42,6 +45,6 @@
 
 <script src="{{ url_for('static', filename='js/site.js') }}"></script>
 <script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
-<script src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.js') }}"></script>
+<script src="{{ url_for('static', filename='lib/bootstrap-4.0.0/dist/js/bootstrap.js') }}"></script>
 </body>
 </html>

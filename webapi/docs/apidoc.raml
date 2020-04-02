@@ -15,10 +15,12 @@ baseUriParameters:
         description: Date selon le format ISO 8601.
         type: date
         required: true
+        example: "2019-02-18"
       au:
         description: Date selon le format ISO 8601.
         type: date
         required: true
+        example: "2020-03-18"
     responses:
       200:
         body:
@@ -27,28 +29,39 @@ baseUriParameters:
               {
                 "contrevenants": [
                   {
+                      "id": "42cdfd6a-6995-11ea-9c22-3052cba4b5bc",
                       "adresse": "407 Rue McGill",
                       "categorie": "Restaurant",
                       "date_infraction": "2019-06-26",
                       "date_jugement": "2019-07-04",
                       "description": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
                       "etablissement": "HOLDER",
-                      "id": "42cdfd6a-6995-11ea-9c22-3052cba4b5bc",
                       "montant": "250 $",
                       "proprietaire": "9117-4383 QUEBEC INC.",
                       "ville": "Montréal H2Y 2G3"
-                  },
-                  {
-                      "adresse": "433 Rue Chabanel Ouest",
-                      "categorie": "Restaurant service rapide",
-                      "date_infraction": "2019-05-31",
-                      "date_jugement": "2019-06-25",
-                      "description": "Le produit altérable à la chaleur à l'exception des fruits et légumes frais entiers doit être refroidi sans retard et maintenu constamment à une température interne et ambiante ne dépassant pas 4C jusqu'à sa livraison au consommateur, sauf pendant le temps requis pour l'application d'un procédé de fabrication ou d'un traitement reconnu en industrie alimentaire et qui exige une plus haute température.",
-                      "etablissement": "LA PREP",
-                      "id": "42cdfd71-6995-11ea-9c22-3052cba4b5bc",
-                      "montant": "250 $",
-                      "proprietaire": "9193-9579 QUEBEC INC.",
-                      "ville": "Montréal H2N 0A1"
                   }
                 ]
               }
+  /{contrevenantId}:
+    delete:
+      description: |
+        Supprime le contrevenant par le contrvenantId
+      responses:
+        204:
+          body:
+        404:
+          body:
+            application/json:
+              example: |
+                { "error": "Le contrevenant n'a pas été trouvé" }
+    patch:
+      description: |
+        Met à jour les infos du contrevenant (description, date du jugement, montant)
+      responses:
+        204:
+          body:
+        404:
+          body:
+            application/json:
+              example: |
+                { "error": "Le contrevenant n'a pas été trouvé" }

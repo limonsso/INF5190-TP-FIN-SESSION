@@ -42,6 +42,7 @@
             <th scope="col">Date jugement</th>
             <th scope="col">Date infraction</th>
             <th scope="col">Montant</th>
+            <th scope="col">Operation</th>
         </tr>
         </thead>
         <tbody>
@@ -58,8 +59,21 @@
                 <td scope="row">{{ contrevenant.date_jugement }}</td>
                 <td scope="row">{{ contrevenant.date_infraction }}</td>
                 <td scope="row">{{ contrevenant.montant }}</td>
+                <th scope="row">
+                    <a class="btn btn-info" data-toggle="modal" data-target="#edit_contrevenant"
+                       data-id="{{ contrevenant.id }}" data-proprietaire="{{ contrevenant.proprietaire }}"
+                       data-etablissement="{{ contrevenant.etablissement }}"
+                       data-description="{{ contrevenant.description }}"
+                       data-date_jugement="{{ contrevenant.date_jugement }}"
+                       data-date_infraction="{{ contrevenant.date_infraction }}"
+                       data-montant="{{ contrevenant.montant }}"><span
+                            class="fa fa-pencil-square-o text-light"></span></a>
+                    <a class="btn btn-danger" onclick="delete_contrevenant('{{ contrevenant.id }}')">
+                        <span class="fa fa-trash-o text-light"></span></a>
+                </th>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% include 'contrevenant/edit.html' %}
 {% endblock %}
