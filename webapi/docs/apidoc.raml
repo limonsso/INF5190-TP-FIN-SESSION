@@ -1,11 +1,43 @@
-#%RAML 0.8
+#%RAML 1.0
 title: Contrevenants
 version: v1
 baseUri: http://localhost:5000
-baseUriParameters:
-  apiMode:
-    description: Contrevenant api.
-    
+types:
+  Contrevenant_to_updated:
+    properties:
+      description: :
+        type: string
+        required: true
+      date_jugement:
+        type: date-only
+        required: true
+      montant:
+        type: number
+        required: true
+  Contrevenant:
+    properties:
+      id:
+        type: string
+      etablissement:
+        type: string
+      adresse:
+        type: string
+      proprietaire:
+        type: string
+      categorie:
+        type: string
+      description:
+        type: string
+      date_infraction:
+        type: date-only
+      date_jugement:
+        type: date-only
+      montant:
+        type: string
+      ville:
+        type: string
+
+
 /contrevenants:
   get:
     description: |
@@ -13,32 +45,33 @@ baseUriParameters:
     queryParameters:
       du:
         description: Date selon le format ISO 8601.
-        type: date
+        type: date-only
         required: true
         example: "2019-02-18"
       au:
         description: Date selon le format ISO 8601.
-        type: date
+        type: date-only
         required: true
         example: "2020-03-18"
     responses:
       200:
         body:
           application/json:
+            type: Contrevenant[]
             example: |
               {
-                "contrevenants": [
+                [
                   {
-                      "id": "42cdfd6a-6995-11ea-9c22-3052cba4b5bc",
-                      "adresse": "407 Rue McGill",
-                      "categorie": "Restaurant",
-                      "date_infraction": "2019-06-26",
-                      "date_jugement": "2019-07-04",
-                      "description": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
-                      "etablissement": "HOLDER",
-                      "montant": "250 $",
-                      "proprietaire": "9117-4383 QUEBEC INC.",
-                      "ville": "Montréal H2Y 2G3"
+                    "id": "42cdfd6a-6995-11ea-9c22-3052cba4b5bc",
+                    "adresse": "407 Rue McGill",
+                    "categorie": "Restaurant",
+                    "date_infraction": "2019-06-26",
+                    "date_jugement": "2019-07-04",
+                    "description": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
+                    "etablissement": "HOLDER",
+                    "montant": "250 $",
+                    "proprietaire": "9117-4383 QUEBEC INC.",
+                    "ville": "Montréal H2Y 2G3"
                   }
                 ]
               }
@@ -54,12 +87,14 @@ baseUriParameters:
             application/json:
               example: |
                 { "error": "Le contrevenant n'a pas été trouvé" }
-    patch:
+    put:
       description: |
         Met à jour les infos du contrevenant (description, date du jugement, montant)
       responses:
         204:
           body:
+            application/json:
+              type: Contrevenant
         404:
           body:
             application/json:

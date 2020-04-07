@@ -17,8 +17,6 @@ class Contrevenant(object):
         self.date_jugement = date_jugement
         self.date_infraction = date_infraction
         self.montant = montant
-        self.has_been_deleted = 0
-        self.is_local_data = 1
         self.modification_date = ''
         self.creation_date = date.today()
 

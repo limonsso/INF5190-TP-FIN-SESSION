@@ -6,7 +6,6 @@ import xmltodict
 
 class XMLHelper:
 
-
     def getXML(url):
         xmlFile = urllib.request.urlopen(url)
         xmlResponse = xmlFile.read().decode('ISO-8859-1').encode('latin-1')
@@ -15,11 +14,9 @@ class XMLHelper:
         return xmlResponse
         pass
 
-
     def makeDict(xmlFile):
         data = xmltodict.parse(xmlFile)
         return data
-
 
     def saveJSON(dictionary):
         currentDayData = dictionary
