@@ -34,8 +34,6 @@
     </div>
     <div class="container">
         <h3>Recherche rapide</h3>
-        <footer class="blockquote-footer"><cite title="Source Title">Obtenez la liste des contrevenants ayant commis une
-            infraction entre deux dates spécifiées</cite></footer>
         <form>
             <div id="alert-error-qck-search" class="alert alert-dismissible alert-danger mt-2 hidden">
                 <p class="mb-0">Désolé, la date 'du' doit être inferieure à la date 'au' SVP !!!</p>
@@ -51,6 +49,14 @@
                     <input type="date" class="form-control form-control-sm" id="date_au" name="date_au">
                     <div class="invalid-feedback">La date est réquise</div>
                 </div>
+                <div class="form-group col-3 mb-2">
+                    <label for="date_au">Établissement</label>
+                    <div class="autocomplete">
+                        <input type="text" class="form-control form-control-sm" id="etablissement_autocomplete"
+                               name="etablissement_autocomplete">
+                        <div class="invalid-feedback">Un établissement dans les options est réquis</div>
+                    </div>
+                </div>
                 <div class="form-group col-12">
                     <button class="btn btn-primary" id="quick-search-submit">Rechercher</button>
                 </div>
@@ -59,8 +65,16 @@
         <table id="quick-search-result" class="table table-hover">
             <thead>
             <tr class="table-dark">
-                <th scope="col">Nom de l'établissement</th>
-                <th scope="col">Nombre de contravations</th>
+                <th scope="col">Proprietaire</th>
+                <th scope="col">Categorie</th>
+                <th scope="col">Établissement</th>
+                <th scope="col">Adresse</th>
+                <th scope="col">Ville</th>
+                <th scope="col">Description</th>
+                <th scope="col">Date jugement</th>
+                <th scope="col">Date infraction</th>
+                <th scope="col">Montant</th>
+                <th scope="col">Operation</th>
             </tr>
             </thead>
             <tbody>
@@ -83,4 +97,9 @@
         </div>
         <!--    End of Container    -->
     </div>
+    <script>
+        $(document).ready(function(){            
+            fill_etablissements_select()
+        });
+    </script>
 {% endblock %}

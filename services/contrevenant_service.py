@@ -54,12 +54,12 @@ def get_all_contrevenants():
     return contrevenants
 
 
-def get_all_contrevenant_between_date(du, au):
+def get_all_contrevenant_between_date(du, au, etablissement):
     connection = (TpInf5190Db()).get_connection()
     curs = connection.cursor()
-    sqlQuery = """SELECT * FROM Contrevenants WHERE date_infraction BETWEEN ? AND ? 
-    AND has_been_deleted = 0 ORDER BY date_infraction DESC"""
-    curs.execute(sqlQuery, (du, au))
+    sqlQuery = """SELECT * FROM Contrevenants WHERE date_infraction BETWEEN ? AND ? AND etablissement like ?
+    AND has_been_deleted = 0 ORDER BY etablissement ASC"""
+    curs.execute(sqlQuery, (du, au, '%' + etablissement + '%',))
     rows = curs.fetchall()
     contrevenants = []
     for row in rows:
@@ -68,6 +68,20 @@ def get_all_contrevenant_between_date(du, au):
                                     row[9], row[0])
         contrevenants.append(contrevenant)
     return contrevenants
+
+
+def get_all_contrevenant_etablissements():
+    connection = (TpInf5190Db()).get_connection()
+    curs = connection.cursor()
+    sqlQuery = """SELECT etablissement FROM Contrevenants WHERE has_been_deleted = 0 
+    GROUP BY etablissement ORDER BY etablissement DESC"""
+    curs.execute(sqlQuery)
+    rows = curs.fetchall()
+    etablissements = []
+    for row in rows:
+        etablissement = row[0]
+        etablissements.append(etablissement)
+    return etablissements
 
 
 def delete_contrevenant(id):
@@ -109,10 +123,10 @@ def get_contrevenant(id):
     if row is not None:
         contrevenant = Contrevenant(row[1], row[2], row[3], row[4], row[5],
                                     row[6], row[7], row[8], row[9], row[0])
-        contrevenant.has_been_deleted = row[10]
-        contrevenant.is_local_data = row[11]
-        contrevenant.modification_date = row[12]
-        contrevenant.creation_date = row[13]
+        #contrevenant.has_been_deleted = row[10]
+        #contrevenant.is_local_data = row[11]
+        #contrevenant.modification_date = row[12]
+        #contrevenant.creation_date = row[13]
         return contrevenant
     else:
         return None

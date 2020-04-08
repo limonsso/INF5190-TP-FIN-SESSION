@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, render_template, g
+from flask_json_schema import JsonSchema
 
 from Jobs.import_data_Job import ImportDataJob
 from .config import config_by_name
@@ -8,6 +9,8 @@ from .config import config_by_name
 config_name = os.getenv('BOILERPLATE_ENV') or 'development'
 app = Flask(__name__)
 app.config.from_object(config_by_name[config_name])
+schema = JsonSchema(app)
+
 job= ImportDataJob()
 job.start()
 
