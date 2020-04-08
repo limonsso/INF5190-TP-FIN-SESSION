@@ -123,10 +123,10 @@ def get_contrevenant(id):
     if row is not None:
         contrevenant = Contrevenant(row[1], row[2], row[3], row[4], row[5],
                                     row[6], row[7], row[8], row[9], row[0])
-        contrevenant.has_been_deleted = row[10]
-        contrevenant.is_local_data = row[11]
-        contrevenant.modification_date = row[12]
-        contrevenant.creation_date = row[13]
+        #contrevenant.has_been_deleted = row[10]
+        #contrevenant.is_local_data = row[11]
+        #contrevenant.modification_date = row[12]
+        #contrevenant.creation_date = row[13]
         return contrevenant
     else:
         return None

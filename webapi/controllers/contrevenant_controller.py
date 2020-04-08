@@ -61,12 +61,14 @@ def put(id):
     contrevenant_dic = contrevenant.__dict__
     for key, value in req.items():
         if not not value:
-            contrevenant_dic[key] = value
+            if key == 'montant':
+                contrevenant_dic[key] = f'{value} $'
+            else:                
+                contrevenant_dic[key] = value
+
     contrevenant = DictToObject(contrevenant_dic)
-    montant = re.findall(r'^\D*(\d+)', contrevenant.montant)
-    contrevenant.montant = f'{montant[0]} $'
     update_contrevenant(contrevenant)
-    return make_response(jsonify(""), 204)
+    return make_response(jsonify(contrevenant_dic), 204)
 
 
 @api.route("/doc")

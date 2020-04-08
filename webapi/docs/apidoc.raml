@@ -77,26 +77,30 @@ types:
               }
   /{contrevenantId}:
     delete:
-      description: |
-        Supprime le contrevenant par le contrvenantId
+      description: Supprime le contrevenant par le contrvenantId
       responses:
         204:
-          body:
         404:
           body:
             application/json:
-              example: |
-                { "error": "Le contrevenant n'a pas été trouvé" }
+              example:
+                error: Le contrevenant n'a pas été trouvé
     put:
-      description: |
-        Met à jour les infos du contrevenant (description, date du jugement, montant)
+      description: Met à jour les infos du contrevenant (description, date du jugement, montant)
+      body:
+        application/json:
+          type: Contrevenant_to_updated
+          example:
+            description: 
+            date_infraction: 2014-02-03
+            montant: 1200
       responses:
-        204:
+        200:
           body:
             application/json:
               type: Contrevenant
         404:
           body:
             application/json:
-              example: |
-                { "error": "Le contrevenant n'a pas été trouvé" }
+              example:
+                error: Le contrevenant n'a pas été trouvé

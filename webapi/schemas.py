@@ -12,7 +12,7 @@ contrevenant_update_schema = {
             'type': 'string'
         },
         'montant': {
-            'type': 'string'
+            'type': 'number'
         }
     },
     'additionalProperties': False
