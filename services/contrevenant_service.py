@@ -39,8 +39,11 @@ def search(**kwargs):
     return contrevenants
 
 
-def get_all_contrevenants():
-    connection = (TpInf5190Db()).get_connection()
+def get_all_contrevenants(db_file=''):
+    if not db_file:
+        connection = (TpInf5190Db()).get_connection()
+    else:
+        connection = (TpInf5190Db()).get_connection(db_file)
     curs = connection.cursor()
     sqlQuery = "SELECT * FROM Contrevenants WHERE has_been_deleted = 0"
     curs.execute(sqlQuery)
