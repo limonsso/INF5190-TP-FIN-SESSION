@@ -24,7 +24,8 @@ class Contrevenant(object):
 def is_equal(contrevenant_1, contrevenant_2):
     if (contrevenant_1.etablissement == contrevenant_2.etablissement
             and contrevenant_1.proprietaire == contrevenant_2.proprietaire
-            and contrevenant_1.date_infraction == f"{dateparser.parse(contrevenant_2.date_infraction).date()}"):
+            and contrevenant_1.date_infraction == f"{dateparser.parse(contrevenant_2.date_infraction).date()}"
+            and contrevenant_1.description == contrevenant_2.description):
         return True
     else:
         return False

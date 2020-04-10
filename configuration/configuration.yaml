@@ -1,0 +1,7 @@
+smtp_configuration:
+  'host': 'localhost'
+  'port': 32769
+
+email_configuration:
+  'from': 'noreply@inf5190h21.uqam.ca'
+  'to': 'fg591091@ens.uqam.ca'

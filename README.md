@@ -5,4 +5,4 @@ Le projet consiste à récupérer un ensemble de données provenant de la ville 
 ## INSTALATION
 - S'assurer que ``pip`` est installé 
 - Activer l'environent virtual **``py -m venv env``** et **``source env/bin/activate``** *(sous linux)* ou **``.\env\Scripts\activate``** *(sous windows)*
-- Lancer la commande **``pip install requirements.txt``**
+- Lancer la commande **``pip install requirements.txt``** pour intaller les dépendances du projet.
