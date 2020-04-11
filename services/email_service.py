@@ -25,23 +25,26 @@ def send_nouveaux_contrevenants(list_new_contrevenant):
     """)
     msg.add_alternative(generate_html(list_new_contrevenant), subtype='html')
     # Send the message via our own SMTP server.
-    with smtplib.SMTP(smtp_configuration['host'], smtp_configuration['port']) as s:
-        s.send_message(msg)
+    try:
+        with smtplib.SMTP(smtp_configuration['host'], smtp_configuration['port']) as s:
+            s.send_message(msg)
+    except:
+        print("Envoi d'email a éechoué. Vérifier les configurations SMTP dans le fichier configuration.yaml")
+
 
 
 def generate_html(list_new_contrevenant):
     rows = ''
+    list_new_contrevenant.sort(key=lambda x: x.proprietaire, reverse=True)
+    list_new_contrevenant = list(dict.fromkeys(list_new_contrevenant))
     for contrevenant in list_new_contrevenant:
-        rows+=f"""\
+        rows += f"""\
             <tr>
-                <td scope="row">{contrevenant.proprietaire }</td>
-                <td scope="row">{contrevenant.categorie }</td>
-                <td scope="row">{contrevenant.etablissement }</td>
-                <td scope="row">{contrevenant.adresse }</td>
-                <td scope="row">{contrevenant.ville }</td>
-                <td scope="row">{contrevenant.date_jugement}</td>
-                <td scope="row">{contrevenant.date_infraction }</td>
-                <td scope="row">{contrevenant.montant}</td>                
+                <td scope="row">{contrevenant.proprietaire}</td>
+                <td scope="row">{contrevenant.categorie}</td>
+                <td scope="row">{contrevenant.etablissement}</td>
+                <td scope="row">{contrevenant.adresse}</td>
+                <td scope="row">{contrevenant.ville}</td>            
             </tr>
         """
     html = f"""\
@@ -62,9 +65,6 @@ def generate_html(list_new_contrevenant):
                     <th scope="col">Établissement</th>
                     <th scope="col">Adresse</th>
                     <th scope="col">Ville</th>
-                    <th scope="col">Date jugement</th>
-                    <th scope="col">Date infraction</th>
-                    <th scope="col">Montant</th>
                 </tr>
               </thead>
               <tbody>

@@ -3,39 +3,89 @@ title: Contrevenants
 version: v1
 baseUri: http://localhost:5000
 types:
-  Contrevenant_to_updated:
+  Contrevenant_to_update:
     properties:
-      description: :
+      proprietaire:
         type: string
         required: true
-      date_jugement:
-        type: date-only
+      categorie:
+        type: string
         required: true
-      montant:
-        type: number
+      etablissement:
+        type: string
+        required: true
+      adresse:
+        type: string
+        required: true
+      ville:
+        type: string
         required: true
   Contrevenant:
     properties:
-      id:
-        type: string
-      etablissement:
-        type: string
-      adresse:
-        type: string
       proprietaire:
         type: string
+        required: false
       categorie:
         type: string
-      description:
+        required: false
+      etablissement:
         type: string
-      date_infraction:
-        type: date-only
-      date_jugement:
-        type: date-only
-      montant:
+        required: false
+      adresse:
         type: string
+        required: false
       ville:
         type: string
+        required: false
+  Contravention:
+    properties:
+      id:
+        type: string
+        required: false
+      description:
+        type: string
+        required: false
+      date_infraction:
+        type: date-only
+        required: false
+      date_jugement:
+        type: date-only
+        required: false
+      montant:
+        type: string
+        required: false
+  Contravention_all_details:
+    properties:
+      id:
+        type: string
+        required: false
+      description:
+        type: string
+        required: false
+      date_infraction:
+        type: date-only
+        required: false
+      date_jugement:
+        type: date-only
+        required: false
+      montant:
+        type: string
+        required: false
+      proprietaire:
+        type: string
+        required: false
+      categorie:
+        type: string
+        required: false
+      etablissement:
+        type: string
+        required: false
+      adresse:
+        type: string
+        required: false
+      ville:
+        type: string
+        required: false
 
 
 /contrevenants:
@@ -53,13 +103,17 @@ types:
         type: date-only
         required: true
         example: "2020-03-18"
+      etablissement:
+        description: Nom de l'établissement.
+        type: string
+        required: true
+        example: "CULTURES ET VALENTINE"
     responses:
       200:
         body:
           application/json:
-            type: Contrevenant[]
-            example: |
-              {
+            type: Contravention_all_details[]
+            example:
                 [
                   {
                     "id": "42cdfd6a-6995-11ea-9c22-3052cba4b5bc",
@@ -74,7 +128,6 @@ types:
                     "ville": "Montréal H2Y 2G3"
                   }
                 ]
-              }
   /{contrevenantId}:
     delete:
       description: Supprime le contrevenant par le contrvenantId
@@ -89,11 +142,14 @@ types:
       description: Met à jour les infos du contrevenant (description, date du jugement, montant)
       body:
         application/json:
-          type: Contrevenant_to_updated
+          type: Contrevenant_to_update
           example:
-            description: 
-            date_infraction: 2014-02-03
-            montant: 1200
+            id: 059103f1-7b86-11ea-ab7a-dc7196f14dfb
+            proprietaire: SOCIETE XIE ET ZHANG, S.E.N.C
+            categorie: Camion-cuisine
+            etablissement: DIM SUM MONTREAL (CAMION PLAQUE L441462-4)
+            adresse: 67 Rue De La Gauchetière Ouest
+            ville: Montréal H2Z 1C2
       responses:
         200:
           body:

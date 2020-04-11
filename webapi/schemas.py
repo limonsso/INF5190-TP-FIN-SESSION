@@ -1,18 +1,24 @@
 contrevenant_update_schema = {
     'type': 'object',
-    'required': ['description', 'date_jugement', 'montant', 'id'],
+    'required': ['proprietaire', 'categorie', 'etablissement', 'adresse', 'ville', 'id'],
     'properties': {
         'id': {
             'type': 'string'
         },
-        'description': {
+        'proprietaire': {
             'type': 'string'
         },
-        'date_jugement': {
+        'categorie': {
             'type': 'string'
         },
-        'montant': {
-            'type': 'number'
+        'etablissement': {
+            'type': 'string'
+        },
+        'adresse': {
+            'type': 'string'
+        },
+        'ville': {
+            'type': 'string'
         }
     },
     'additionalProperties': False
