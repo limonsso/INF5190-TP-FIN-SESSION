@@ -2,79 +2,105 @@
 title: Contrevenants
 version: v1
 baseUri: http://localhost:5000
-types:
-  Contrevenant_to_updated:
-    properties:
-      description: :
-        type: string
-        required: true
-      date_jugement:
-        type: date-only
-        required: true
-      montant:
-        type: number
-        required: true
+types:S
   Contrevenant:
+    properties:
+      proprietaire:
+        type: string
+        required: false
+      categorie:
+        type: string
+        required: false
+      etablissement:
+        type: string
+        required: false
+      adresse:
+        type: string
+        required: false
+      ville:
+        type: string
+        required: false
+  Contravention:
     properties:
       id:
         type: string
-      etablissement:
-        type: string
-      adresse:
-        type: string
-      proprietaire:
-        type: string
-      categorie:
-        type: string
+        required: false
       description:
         type: string
+        required: false
       date_infraction:
         type: date-only
+        required: false
       date_jugement:
         type: date-only
+        required: false
       montant:
         type: string
-      ville:
+        required: false
+
+  Etablissement:
+    properties:
+      etablissement:
         type: string
+        required: false
+      nbr_contravention:
+        type: number
+        required: false
 
 
 /contrevenants:
+  /contraventions:
+    get:
+      description: Les contraventions ayant été commises par le contrevenant entre deux dates spécifiées.
+      queryParameters:
+        du:
+          description: Date selon le format ISO 8601.
+          type: date-only
+          required: true
+          example: "2019-02-18"
+        au:
+          description: Date selon le format ISO 8601.
+          type: date-only
+          required: true
+          example: "2020-03-18"
+        contrevenant-id:
+          description: id du contrevenant.
+          type: string
+          required: true
+          example: "0031f0bc-479e-4c3b-97ff-8cace3d50369"
+      responses:
+        200:
+          body:
+            application/json:
+              type: Contravention[]
+              example:
+                  [
+                    {
+                      "id": "42cdfd6a-6995-11ea-9c22-3052cba4b5bc",
+                      "date_infraction": "2019-06-26",
+                      "date_jugement": "2019-07-04",
+                      "description": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
+                      "montant": "250 $",
+                    }
+                  ]
   get:
-    description: |
-      Les contrevenants ayant commis une infraction entre deux dates spécifiées en paramètre.
-    queryParameters:
-      du:
-        description: Date selon le format ISO 8601.
-        type: date-only
-        required: true
-        example: "2019-02-18"
-      au:
-        description: Date selon le format ISO 8601.
-        type: date-only
-        required: true
-        example: "2020-03-18"
+    description: Liste de tous les contrevenant.
     responses:
       200:
         body:
           application/json:
             type: Contrevenant[]
-            example: |
-              {
+            example:
                 [
                   {
                     "id": "42cdfd6a-6995-11ea-9c22-3052cba4b5bc",
                     "adresse": "407 Rue McGill",
                     "categorie": "Restaurant",
-                    "date_infraction": "2019-06-26",
-                    "date_jugement": "2019-07-04",
-                    "description": "Les personnes affectées à la préparation des produits, au lavage ou au nettoyage du matériel et de l'équipement doivent: porter un bonnet ou une résille propre qui recouvre entièrement les cheveux; porter un couvre-barbe propre qui recouvre entièrement la barbe.",
                     "etablissement": "HOLDER",
-                    "montant": "250 $",
                     "proprietaire": "9117-4383 QUEBEC INC.",
                     "ville": "Montréal H2Y 2G3"
                   }
                 ]
-              }
   /{contrevenantId}:
     delete:
       description: Supprime le contrevenant par le contrvenantId
@@ -89,11 +115,14 @@ types:
       description: Met à jour les infos du contrevenant (description, date du jugement, montant)
       body:
         application/json:
-          type: Contrevenant_to_updated
+          type: Contrevenant
           example:
-            description: 
-            date_infraction: 2014-02-03
-            montant: 1200
+            id: 059103f1-7b86-11ea-ab7a-dc7196f14dfb
+            proprietaire: SOCIETE XIE ET ZHANG, S.E.N.C
+            categorie: Camion-cuisine
+            etablissement: DIM SUM MONTREAL (CAMION PLAQUE L441462-4)
+            adresse: 67 Rue De La Gauchetière Ouest
+            ville: Montréal H2Z 1C2
       responses:
         200:
           body:
@@ -104,3 +133,19 @@ types:
             application/json:
               example:
                 error: Le contrevenant n'a pas été trouvé
+
+  /etablissements:
+    get:
+      description: Tous les établissements  ayant commis une ou plusieurs infractions. Pour chaque établissement, on indique le nombre d'infractions connues. La liste est triée en ordre décroissant du nombre d'infractions
+      responses:
+        200:
+          body:
+            application/json:
+              type: Etablissement[]
+              example:
+                [
+                  {
+                    "etablissement": "HOLDER",
+                    "nbr_contravention": 20
+                  }
+                ]

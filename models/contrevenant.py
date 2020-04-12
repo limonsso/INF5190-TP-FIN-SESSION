@@ -3,29 +3,23 @@ from datetime import date
 
 import dateparser
 
+from db.tpinf5190_db import TpInf5190Db
+
+
 class Contrevenant(object):
 
-    def __init__(self, proprietaire="", categorie="", etablissement="", adresse="", ville="", description="",
-                 date_infraction="", date_jugement="", montant="", id=""):
-        self.id = f"{uuid.uuid1()}" if id == "" else id
+    def __init__(self, proprietaire="", categorie="", etablissement="", adresse="", ville="", id=""):
+        self.id = f"{uuid.uuid4()}" if id == "" else id
         self.proprietaire = proprietaire
         self.categorie = categorie
         self.etablissement = etablissement
         self.adresse = adresse
         self.ville = ville
-        self.description = description
-        self.date_jugement = date_jugement
-        self.date_infraction = date_infraction
-        self.montant = montant
-        self.modification_date = ''
-        self.creation_date = date.today()
+        self.has_been_delete = 0
 
-
-def is_equal(contrevenant_1, contrevenant_2):
-    if (contrevenant_1.etablissement == contrevenant_2.etablissement
-            and contrevenant_1.proprietaire == contrevenant_2.proprietaire
-            and contrevenant_1.date_infraction == f"{dateparser.parse(contrevenant_2.date_infraction).date()}"
-            and contrevenant_1.description == contrevenant_2.description):
-        return True
-    else:
-        return False
+    def add(self, db_file=''):
+        con = (TpInf5190Db()).get_connection(db_file)
+        cur = con.cursor()
+        cur.execut("INSERT INTO contrevenants VALUES (?, ?, ?, ?, ?, ?, ?)",
+                   self.id, self.proprietaire, self.categorie, self.etablissement, self.adresse, self.ville,)
+        con.commit()
