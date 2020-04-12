@@ -14,13 +14,10 @@ class Contravention(object):
         self.date_jugement = date_jugement
         self.date_infraction = date_infraction
         self.montant = montant
-        self.modification_date = ''
-        self.creation_date = date.today()
 
     def add(self, db_file=''):
         con = (TpInf5190Db()).get_connection(db_file)
         cur = con.cursor()
-        cur.execut("INSERT INTO contraventions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                   self.id, self.description, self.date_jugement, self.date_infraction, self.montant,
-                   self.modification_date, self.creation_date, )
+        cur.execut("INSERT INTO contraventions VALUES (?, ?, ?, ?, ?, ?, ?)",
+                   self.id, self.description, self.date_jugement, self.date_infraction, self.montant,)
         con.commit()

@@ -5,6 +5,7 @@ $("#quick-search-submit").click(function (e) {
     var date_du = $("#date_du");
     var date_au = $("#date_au");
     var etablissement_autocomplete = $("#etablissement_autocomplete");
+    var contrevenant_id = $("#qck-srch-contrevenant-id");
     if (date_du.val() === "") {
         date_du.addClass("is-invalid");
         return;
@@ -19,8 +20,8 @@ $("#quick-search-submit").click(function (e) {
     }
 
     if (
-        etablissement_autocomplete.val() === "" ||
-        !etablissements.find((x) => x === etablissement_autocomplete.val().trim())
+        contrevenant_id.val() === "" ||
+        !etablissements.find((x) => x.value === contrevenant_id.val().trim())
     ) {
         etablissement_autocomplete.addClass("is-invalid");
         return;
@@ -42,7 +43,7 @@ $("#quick-search-submit").click(function (e) {
     fetch(
         `${
             window.location.origin
-        }/contrevenants?du=${date_du.val()}&au=${date_au.val()}&etablissement=${etablissement_autocomplete.val()}`
+        }/contrevenants/contraventions?du=${date_du.val()}&au=${date_au.val()}&contrevenant-id=${contrevenant_id.val()}`
     )
         .then(function (data) {
             data.json().then(function (response) {
@@ -241,14 +242,17 @@ function update_contrevenant(data, from) {
 }
 
 function fill_etablissements_select() {
-    fetch(`${window.location.origin}/contrevenants/etablissements`)
+    fetch(`${window.location.origin}/contrevenants`)
         .then((response) => {
             if (response.ok) {
                 response.json().then((data) => {
-                    etablissements = data;
+                    etablissements = data.map(x => {
+                        return {value: x.id, text : `${x.etablissement} - ${x.proprietaire}`}
+                    });
                     autocomplete(
                         document.getElementById("etablissement_autocomplete"),
-                        data
+                        document.getElementById("qck-srch-contrevenant-id"),
+                        etablissements
                     );
                 });
             }

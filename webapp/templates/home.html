@@ -49,12 +49,15 @@
                     <input type="date" class="form-control form-control-sm" id="date_au" name="date_au">
                     <div class="invalid-feedback">La date est réquise</div>
                 </div>
-                <div class="form-group col-3 mb-2">
-                    <label for="date_au">Établissement</label>
-                    <div class="autocomplete">
-                        <input type="text" class="form-control form-control-sm" id="etablissement_autocomplete"
-                               name="etablissement_autocomplete">
-                        <div class="invalid-feedback">Un établissement dans les options est réquis</div>
+                <div class="form-group col-6 mb-2">
+                    <div class="row">
+                        <label class="col-12" for="date_au">Établissement</label>
+                        <div class="autocomplete col-12">
+                            <input type="hidden" id="qck-srch-contrevenant-id">
+                            <input type="text" class="form-control form-control-sm" id="etablissement_autocomplete"
+                                   name="etablissement_autocomplete">
+                            <div class="invalid-feedback">Un établissement dans les options est réquis</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-12">
@@ -92,7 +95,7 @@
         <!--    End of Container    -->
     </div>
     <script>
-        $(document).ready(function(){            
+        $(document).ready(function () {
             fill_etablissements_select()
         });
     </script>

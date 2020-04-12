@@ -80,35 +80,21 @@ def get_all_inspections(db_file=''):
     return inspections
 
 
-def get_all_contrevenant_between_date(du, au, etablissement):
+def get_contrevenant_between_date(du, au, contrevenant_id):
     connection = (TpInf5190Db()).get_connection()
     curs = connection.cursor()
     sqlQuery = """SELECT contrevenants.* FROM contrevenants
      JOIN contraventions i on contrevenants.id = i.contrevenant_id
-     WHERE date_infraction BETWEEN ? AND ? AND etablissement = ?
+     WHERE date_infraction BETWEEN ? AND ? AND contrevenant_id = ?
     AND has_been_deleted = 0 GROUP BY contrevenants.id,proprietaire,etablissement,adresse,ville ORDER BY etablissement ASC"""
-    curs.execute(sqlQuery, (du, au, etablissement,))
-    rows = curs.fetchall()
-    contrevenants = []
-    for row in rows:
-        contrevenant = Contrevenant(row[1], row[2], row[3], row[4],
-                                    row[5], row[0])
-        contrevenants.append(contrevenant)
-    return contrevenants
-
-
-def get_all_contrevenant_etablissements():
-    connection = (TpInf5190Db()).get_connection()
-    curs = connection.cursor()
-    sqlQuery = """SELECT etablissement FROM contrevenants
-    GROUP BY etablissement ORDER BY etablissement DESC"""
-    curs.execute(sqlQuery)
-    rows = curs.fetchall()
-    etablissements = []
-    for row in rows:
-        etablissement = row[0]
-        etablissements.append(etablissement)
-    return etablissements
+    curs.execute(sqlQuery, (du, au, contrevenant_id,))
+    row = curs.fetchone()
+    if row is not None:
+        contrevenant = Contrevenant(row[1], row[2], row[3], row[4], row[5],
+                                    row[0])
+        return contrevenant
+    else:
+        return None
 
 
 def delete_contrevenant(id):
@@ -137,7 +123,7 @@ def update_contrevenant(contrevenant: Contrevenant):
             or not contrevenant.ville or not contrevenant.adresse:
         return None
     curs.execute(
-        """UPDATE contrevenants SET proprietaire=? , categorie=?, etablissement=?, adresse=?, modification_date=?,
+        """UPDATE contrevenants SET proprietaire=? , categorie=?, etablissement=?, adresse=?,
          ville=? WHERE id= ?""",
         (contrevenant.proprietaire, contrevenant.categorie, contrevenant.etablissement, contrevenant.adresse,
          contrevenant.ville, date.today(), contrevenant.id,))
@@ -182,3 +168,13 @@ def get_contrevenant_by_proprietaire_and_etablissement(proprietaire, etablisemen
         return contrevenant
     else:
         return None
+
+
+def get_all_etablissements_with_count_contraventions():
+    connection = (TpInf5190Db()).get_connection()
+    curs = connection.cursor()
+    curs.execute("""SELECT etablissement, count(etablissement) nbr_contravention FROM Contrevenants 
+    JOIN contraventions c on contrevenants.id = c.contrevenant_id
+    GROUP BY etablissement ORDER BY nbr_contravention DESC""")
+    rows = curs.fetchall()
+    return list(map(lambda x: {'etablisement': x[0], 'nbr_contravention': x[1]}, rows))

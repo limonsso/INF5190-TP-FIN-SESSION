@@ -18,8 +18,6 @@ class Inspection(object):
         self.date_jugement = date_jugement
         self.date_infraction = date_infraction
         self.montant = montant
-        self.modification_date = ''
-        self.creation_date = date.today()
 
 
 def is_equal(inspection_1, inspection_2):

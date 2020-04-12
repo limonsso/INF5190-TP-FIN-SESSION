@@ -16,13 +16,10 @@ class Contrevenant(object):
         self.adresse = adresse
         self.ville = ville
         self.has_been_delete = 0
-        self.modification_date = ''
-        self.creation_date = date.today()
 
     def add(self, db_file=''):
         con = (TpInf5190Db()).get_connection(db_file)
         cur = con.cursor()
-        cur.execut("INSERT INTO contrevenants VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                   self.id, self.proprietaire, self.categorie, self.etablissement, self.adresse, self.ville,
-                   self.modification_date, self.creation_date, )
+        cur.execut("INSERT INTO contrevenants VALUES (?, ?, ?, ?, ?, ?, ?)",
+                   self.id, self.proprietaire, self.categorie, self.etablissement, self.adresse, self.ville,)
         con.commit()

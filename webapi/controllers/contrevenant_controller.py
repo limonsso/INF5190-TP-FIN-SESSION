@@ -1,25 +1,31 @@
-import re
 from datetime import datetime
 
 from flask import request, jsonify, render_template, make_response
 from flask_json_schema import JsonValidationError
 
 from models.contrevenant import Contrevenant
-from services.contrevenant_service import get_all_contrevenant_between_date, delete_contrevenant, update_contrevenant, \
-    get_contrevenant, get_all_contrevenant_etablissements, get_all_contravention_by_contrevenant_id
-from utils.dictionary_helper import DictToObject
+from services.contrevenant_service import get_contrevenant_between_date, delete_contrevenant, update_contrevenant, \
+    get_contrevenant, get_all_contravention_by_contrevenant_id, get_all_etablissements_with_count_contraventions, \
+    get_all_contrevenants
 from webapi import api
 from webapi.schemas import contrevenant_update_schema
 from webapp import schema
 
 
 @api.route("/contrevenants", methods=["GET"])
-def get_between_dates():
-    du = request.args.get("du").strip()
-    au = request.args.get("au").strip()
-    etablissement = request.args.get("etablissement").strip()
-    if not du or not au:
-        return ""
+def get_contrevenants():
+    contrevenants = get_all_contrevenants()
+    contrevenants_dic = list(map(lambda x: x.__dict__, contrevenants))
+    return jsonify(contrevenants_dic)
+
+
+@api.route("/contrevenants/contraventions", methods=["GET"])
+def get_contravention_between_dates():
+    du = request.args.get("du")
+    au = request.args.get("au")
+    contrevenant_id = request.args.get("contrevenant-id")
+    if not du or not au or not contrevenant_id:
+        return jsonify({})
     format = "%Y-%m-%d"
     try:
         date_du = datetime.strptime(du, format)
@@ -27,21 +33,18 @@ def get_between_dates():
     except ValueError as ve:
         print(f"{ve}")
         return jsonify({})
-    contrevenants = get_all_contrevenant_between_date(du, au, etablissement)
+    contrevenant = get_contrevenant_between_date(du, au, contrevenant_id)
     contraventions = []
-    contraventions_dic = []
-    if contrevenants is not None and contrevenants.__len__() > 0:
-        contraventions = get_all_contravention_by_contrevenant_id(contrevenants[0].id)
-    for contravention in contraventions:
-        contravention_dic = contravention.__dict__
-        contraventions_dic.append(contravention_dic)
+    if contrevenant is not None:
+        contraventions = get_all_contravention_by_contrevenant_id(contrevenant.id)
+    contraventions_dic = list(map(lambda x: x.__dict__, contraventions))
     return jsonify(contraventions_dic)
 
 
 @api.route("/contrevenants/etablissements", methods=["GET"])
-def get_all_etablissements():
-    etablissement = get_all_contrevenant_etablissements()
-    return jsonify(etablissement)
+def get_etablissements_contrevenants():
+    etablissements = get_all_etablissements_with_count_contraventions()
+    return jsonify(etablissements)
 
 
 @api.route("/contrevenants/<id>", methods=["DELETE"])
