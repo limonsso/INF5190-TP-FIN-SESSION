@@ -1,65 +1,89 @@
 {% extends 'main_layout.html' %}
 {% block content %}
-    <style>
-        .parentCell {
-            position: relative;
-        }
 
-        .tooltip1 {
-            display: none;
-            position: absolute;
-            z-index: 100;
-            border: 1px;
-            background-color: #ffffff;
-            border: 1px solid #3d3d3d;
-            padding: 3px;
-            color: #000000;
-            top: 20px;
-            left: 20px;
-        }
-
-        .parentCell:hover span.tooltip1 {
-            display: block;
-            cursor: pointer;
-        }
-    </style>
-    <div class="row mt-5">
-        <div class="col-lg-12">
-            <div class="page-header">
-                <h3>Resultats de la recherche</h3>
+    {% if contrevenants|length == 0 %}
+        <div class="row mt-5">
+            <div class="col align-self-start">
+            </div>
+            <div class="col-10 align-self-center">
+                <h1 style="font-size:3rem"><strong>Aucun resultat pour cette Recherche</strong></h1>
+            </div>
+            <div class="col align-self-end">
             </div>
         </div>
-    </div>
-    <table class="table table-hover">
-        <thead>
-        <tr class="table-dark">
-            <th scope="col">Proprietaire</th>
-            <th scope="col">Dategorie</th>
-            <th scope="col">Établissement</th>
-            <th scope="col">Adresse</th>
-            <th scope="col">Ville</th>
-            <th scope="col">Description</th>
-            <th scope="col">Date jugement</th>
-            <th scope="col">Date infraction</th>
-            <th scope="col">Montant</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for contrevenant in contrevenants %}
-            <tr>
-                <td scope="row">{{ contrevenant.proprietaire }}</td>
-                <td scope="row">{{ contrevenant.categorie }}</td>
-                <td scope="row">{{ contrevenant.etablissement }}</td>
-                <td scope="row">{{ contrevenant.adresse }}</td>
-                <td scope="row">{{ contrevenant.ville }}</td>
-                <td scope="row" class="parentCell">{{ contrevenant.description[:100]+'...' }}
-                    <span class="tooltip1">{{ contrevenant.description }}</span>
-                </td>
-                <td scope="row">{{ contrevenant.date_jugement }}</td>
-                <td scope="row">{{ contrevenant.date_infraction }}</td>
-                <td scope="row">{{ contrevenant.montant }}</td>
+    {% else %}
+        <div class="row mt-5">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h3>Resultats de la recherche</h3>
+                </div>
+            </div>
+        </div>
+        <table id="search-result" class="table table-hover">
+            <thead>
+            <tr class="table-dark">
+                <th scope="col">Proprietaire</th>
+                <th scope="col">Categorie</th>
+                <th scope="col">Établissement</th>
+                <th scope="col">Adresse</th>
+                <th scope="col">Ville</th>
+                <th scope="col">Description</th>
+                <th scope="col">Date jugement</th>
+                <th scope="col">Date infraction</th>
+                <th scope="col">Montant</th>
+                <th scope="col">Operation</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+
+            {% for contrevenant in contrevenants %}
+                <tr>
+                    <td scope="row">{{ contrevenant.proprietaire }}</td>
+                    <td scope="row">{{ contrevenant.categorie }}</td>
+                    <td scope="row">{{ contrevenant.etablissement }}</td>
+                    <td scope="row">{{ contrevenant.adresse }}</td>
+                    <td scope="row">{{ contrevenant.ville }}</td>
+                    <td scope="row" class="parentCell">{{ contrevenant.description[:100]+'...' }}
+                        <span class="tooltip1">{{ contrevenant.description }}</span>
+                    </td>
+                    <td scope="row">{{ contrevenant.date_jugement }}</td>
+                    <td scope="row">{{ contrevenant.date_infraction }}</td>
+                    <td scope="row">{{ contrevenant.montant }}</td>
+                    <th scope="row">
+                        <a class="btn btn-info" data-toggle="modal" data-target="#edit_contrevenant"
+                           data-id="{{ contrevenant.id }}" data-proprietaire="{{ contrevenant.proprietaire }}"
+                           data-etablissement="{{ contrevenant.etablissement }}"
+                           data-categorie="{{ contrevenant.categorie }}"
+                           data-adresse="{{ contrevenant.adresse }}"
+                           data-ville="{{ contrevenant.ville }}" data-from="search"><span
+                                class="fa fa-pencil-square-o text-light"></span></a>
+                        <a class="btn btn-danger" onclick="delete_contrevenant('{{ contrevenant.id }}')">
+                            <span class="fa fa-trash-o text-light"></span></a>
+                    </th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <!--		Start Pagination -->
+        <div class='pagination-container'>
+            <nav>
+                <ul class="pagination">
+                    <li data-page="prev" class="page-item">
+                        <a class="page-link" href="#">&laquo;</a>
+                    </li>
+                    <!--	Here the JS Function Will Add the Rows -->
+                    <li data-page="next" id="prev" class="page-item">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!--    End of Container    -->
+        <script>
+            $(document).ready(function () {
+                getPagination('#search-result');
+            });
+        </script>
+
+    {% endif %}
 {% endblock %}

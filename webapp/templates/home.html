@@ -2,6 +2,9 @@
 {% block content %}
     <div class="page-header mt-3">
         <div class="jumbotron">
+            <h1>TP de fin de session inf5190 H20</h1>
+            <hr/>
+            <h3>Recherche</h3>
             <form class="form-inline" method="GET" action="/">
                 {% if error %}
                     <div class="alert alert-dismissible alert-warning col-12">
@@ -9,22 +12,91 @@
                         <strong><span class="fa fa-exclamation-triangle"></span> Oups!</strong> {{ error }}
                     </div>
                 {% endif %}
-                <div class="form-group col-3 mb-2">
-                    <label for="etablissement">Établisement</label>
-                    <input type="text" class="form-control form-control-sm" id="etablissement" name="etablissement">
-                </div>
-                <div class="form-group col-3 mb-2">
-                    <label for="proprietaire">Propriétaire</label>
-                    <input type="text" class="form-control form-control-sm" id="proprietaire" name="proprietaire">
-                </div>
-                <div class="form-group col-3 mb-2">
-                    <label for="adresse">Adresse</label>
-                    <input type="text" class="form-control form-control-sm" id="adresse" name="adresse">
-                </div>
-                <div class="form-group col-12">
-                    <button class="btn btn-primary" type="submit">Rechercher</button>
+                <div class="row">
+                    <div class="form-group col-3 mb-2">
+                        <label for="etablissement">Établisement</label>
+                        <input type="text" class="form-control form-control-sm" id="etablissement" name="etablissement">
+                    </div>
+                    <div class="form-group col-3 mb-2">
+                        <label for="proprietaire">Propriétaire</label>
+                        <input type="text" class="form-control form-control-sm" id="proprietaire" name="proprietaire">
+                    </div>
+                    <div class="form-group col-3 mb-2">
+                        <label for="adresse">Adresse</label>
+                        <input type="text" class="form-control form-control-sm" id="adresse" name="adresse">
+                    </div>
+                    <div class="form-group col-12">
+                        <button class="btn btn-primary" type="submit">Rechercher</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
+    <div class="container">
+        <h3>Recherche rapide</h3>
+        <form>
+            <div id="alert-error-qck-search" class="alert alert-dismissible alert-danger mt-2 hidden">
+                <p class="mb-0">Désolé, la date 'du' doit être inferieure à la date 'au' SVP !!!</p>
+            </div>
+            <div class="row">
+                <div class="form-group col-3 mb-2">
+                    <label for="date_du">Du</label>
+                    <input type="date" class="form-control form-control-sm" id="date_du" name="date_du">
+                    <div class="invalid-feedback">La date est réquise</div>
+                </div>
+                <div class="form-group col-3 mb-2">
+                    <label for="date_au">Au</label>
+                    <input type="date" class="form-control form-control-sm" id="date_au" name="date_au">
+                    <div class="invalid-feedback">La date est réquise</div>
+                </div>
+                <div class="form-group col-6 mb-2">
+                    <div class="row">
+                        <label class="col-12" for="date_au">Établissement</label>
+                        <div class="autocomplete col-12">
+                            <input type="hidden" id="qck-srch-contrevenant-id">
+                            <input type="text" class="form-control form-control-sm" id="etablissement_autocomplete"
+                                   name="etablissement_autocomplete">
+                            <div class="invalid-feedback">Un établissement dans les options est réquis</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-12">
+                    <button class="btn btn-primary" id="quick-search-submit">Rechercher</button>
+                </div>
+            </div>
+        </form>
+        <table id="quick-search-result" class="table table-hover">
+            <thead>
+            <tr class="table-dark">
+                <th scope="col">Date infraction</th>
+                <th scope="col">Description</th>
+                <th scope="col">Date jugement</th>
+                <th scope="col">Montant</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <!--		Start Pagination -->
+        <div class='pagination-container'>
+            <nav>
+                <ul class="pagination">
+                    <li data-page="prev" class="page-item">
+                        <a class="page-link" href="#">&laquo;</a>
+                    </li>
+                    <!--	Here the JS Function Will Add the Rows -->
+                    <li data-page="next" id="prev" class="page-item">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!--    End of Container    -->
+    </div>
+    <script>
+        $(document).ready(function () {
+            fill_etablissements_select()
+        });
+    </script>
 {% endblock %}
