@@ -2,6 +2,8 @@ from datetime import datetime
 
 from flask import request, jsonify, render_template, make_response
 from flask_json_schema import JsonValidationError
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from models.contrevenant import Contrevenant
 from services.contrevenant_service import get_contrevenant_between_date, delete_contrevenant, update_contrevenant, \
@@ -10,6 +12,19 @@ from services.contrevenant_service import get_contrevenant_between_date, delete_
 from webapi import api
 from webapi.schemas import contrevenant_update_schema
 from webapp import schema
+
+auth = HTTPBasicAuth()
+
+users = {
+    "admin": generate_password_hash("admin")
+}
+
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in users:
+        return check_password_hash(users.get(username), password)
+    return False
 
 
 @api.route("/contrevenants", methods=["GET"])
@@ -48,6 +63,7 @@ def get_etablissements_contrevenants():
 
 
 @api.route("/contrevenants/<id>", methods=["DELETE"])
+@auth.login_required
 def delete(id):
     is_exist = get_contrevenant(id)
     if not is_exist:
@@ -60,6 +76,7 @@ def delete(id):
 
 
 @api.route("/contrevenants/<id>", methods=["PUT"])
+@auth.login_required
 @schema.validate(contrevenant_update_schema)
 def put(id):
     contrevenant = get_contrevenant(id)
