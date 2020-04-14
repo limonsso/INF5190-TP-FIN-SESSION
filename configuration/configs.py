@@ -7,6 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 def get_configuration(config_file='./configuration/configuration.yaml'):
     smtp_configuration = {}
     email_configuration = {}
+    job_configuration = {}
     with open(config_file) as file:
         documents = yaml.full_load(file)
         for item, doc in documents.items():
@@ -14,7 +15,10 @@ def get_configuration(config_file='./configuration/configuration.yaml'):
                 smtp_configuration = doc
             if item == 'email_configuration':
                 email_configuration = doc
-    return {'smtp_configuration': smtp_configuration, 'email_configuration': email_configuration}
+            if item == 'job_configuration':
+                job_configuration = doc
+    return {'smtp_configuration': smtp_configuration, 'email_configuration': email_configuration,
+            'job_configuration': job_configuration}
 
 
 class Config:

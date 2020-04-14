@@ -2,7 +2,7 @@
 title: INF5190 H20
 version: v1
 baseUri: http://localhost:5000
-types:S
+types:
   Contrevenant:
     properties:
       proprietaire:
@@ -46,6 +46,34 @@ types:S
       nbr_contravention:
         type: number
         required: false
+  User:
+    properties:
+      username:
+        type: string
+        required: false
+      email:
+        type: string
+        required: false
+      etablissements:
+        type: array
+        required: false
+      password:
+        type: string
+        required: false
+  User_create:
+    properties:
+      username:
+        type: string
+        required: true
+      email:
+        type: string
+        required: true
+      etablissements:
+        type: array
+        required: true
+      password:
+        type: string
+        required: true
 
 
 /contrevenants:
@@ -149,3 +177,29 @@ types:S
                     "nbr_contravention": 20
                   }
                 ]
+
+/users:
+  post:
+    description: Création d'utilisateur
+    body:
+      application/json:
+        type: User_create
+        example:
+          username: admin
+          email: admin@ens.uqam.ca
+          etablissement: ['DIM SUM MONTREAL (CAMION PLAQUE L441462-4)']
+          password: admin
+    responses:
+      200:
+        body:
+          application/json:
+            type: User
+            example:
+              {
+                "email": "admin@ens.uqam.ca",
+                "etablissements": [
+                  "PIZZA EXPRESSO"
+                ],
+                "id": "d5da2848-a066-4fd0-9414-4fdcf8767b5f",
+                "username": "admin"
+              }

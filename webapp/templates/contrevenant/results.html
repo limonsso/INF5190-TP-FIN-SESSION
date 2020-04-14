@@ -78,12 +78,13 @@
                 </ul>
             </nav>
         </div>
+    {% include 'contrevenant/edit.html' %}
         <!--    End of Container    -->
         <script>
             $(document).ready(function () {
                 getPagination('#search-result');
             });
         </script>
-
+        <script src="{{ url_for('static', filename='js/contrevenant.js') }}"></script>
     {% endif %}
 {% endblock %}

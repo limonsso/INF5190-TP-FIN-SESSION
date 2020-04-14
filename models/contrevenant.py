@@ -1,7 +1,4 @@
 import uuid
-from datetime import date
-
-import dateparser
 
 from db.tpinf5190_db import TpInf5190Db
 
