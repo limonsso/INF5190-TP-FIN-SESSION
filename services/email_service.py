@@ -1,12 +1,10 @@
-# Import smtplib for the actual sending function
+
 import smtplib
 
 # Import the email modules we'll need
 from email.message import EmailMessage
-from email.utils import make_msgid
 
 from configuration.configs import get_configuration
-from utils.dictionary_helper import DictToObject
 
 
 def send_nouveaux_contrevenants(list_new_contrevenant):
