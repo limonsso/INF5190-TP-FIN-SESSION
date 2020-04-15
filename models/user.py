@@ -18,10 +18,10 @@ class User(object):
 
         con = (TpInf5190Db()).get_connection()
         cur = con.cursor()
-        cur.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)",
-                    (self.id, self.username, self.email, hashed_password, salt))
+        cur.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?,?,?)",
+                    (self.id, self.username, self.email, hashed_password, salt, None, None))
         con.commit()
-        self.etablissements = list(map(lambda x: f"{x}", self.etablissements))
+        self.etablissements = list(map(lambda x: x.strip(), self.etablissements))
         sqlQuery = "SELECT id FROM contrevenants WHERE etablissement IN ({etblts})".format(
             etblts=','.join(["?"] * self.etablissements.__len__()))
         cur.execute(sqlQuery, self.etablissements)

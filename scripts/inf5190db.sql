@@ -43,6 +43,7 @@ CREATE TABLE "users" (
     "etablissements" TEXT NOT NULL,
     "password_hash" TEXT NOT NULL,
     "salt" TEXT NOT NULL,
+    "avatar" BLOB NOT NULL
     PRIMARY KEY("id")
 )
 

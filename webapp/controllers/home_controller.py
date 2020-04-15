@@ -3,18 +3,8 @@ from functools import wraps
 from flask import render_template, request, session, redirect
 
 from services.user_service import delete_session
-from webapp import app
+from webapp import app, authentication_required
 from services.contrevenant_service import search
-
-
-def authentication_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if not is_authenticated(session):
-            return redirect('/account/login')
-        return f(*args, **kwargs)
-
-    return decorated
 
 
 @app.route('/')
@@ -41,5 +31,4 @@ def logout():
     return redirect("/account/login")
 
 
-def is_authenticated(session):
-    return "id" in session
+
