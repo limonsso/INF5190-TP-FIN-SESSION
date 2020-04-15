@@ -35,3 +35,28 @@ CREATE TABLE "infractions" (
 	FOREIGN KEY (contrevenant_id) REFERENCES contrevenants(id),
 	FOREIGN KEY (inspection_id) REFERENCES inspections(id)
 )
+
+CREATE TABLE "users" (
+    "id"	TEXT NOT NULL,
+    "username"	TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "etablissements" TEXT NOT NULL,
+    "password_hash" TEXT NOT NULL,
+    "salt" TEXT NOT NULL,
+    "avatar" BLOB NOT NULL
+    PRIMARY KEY("id")
+)
+
+CREATE TABLE "user_contrevenants" (
+    "user_id"	TEXT NOT NULL,
+    "contrevenant_id"	TEXT NOT NULL,
+    PRIMARY KEY("user_id","contrevenant_id"),
+	FOREIGN KEY (contrevenant_id) REFERENCES contrevenants(id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+)
+
+CREATE TABLE sessions (
+    "id" TEXT PRIMARY KEY,
+    "user_id" TEXT,
+    FOREIGN KEY(user_id) references users(id)
+);

@@ -1,0 +1,67 @@
+{% extends 'main_layout.html' %}
+{% block content %}
+    <div class="row">
+        <div class=" col-6 mt-5">
+            <div class="row ">
+                <div class="col-lg-12">
+                    <div class="page-header">
+                        <h3>Mon profile</h3>
+                    </div>
+                </div>
+            </div>
+            <form action="/account/profil" method="post" enctype=multipart/form-data>
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <div class="form-group">
+                    <label for="username">Nom utilisateur</label>
+                    <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Adresse courriel</label>
+                    <input type="text" class="form-control" id="email" value="{{ user.email }}" disabled>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-12" for="date_au">Établissement</label>
+                        <div class="autocomplete col-12">
+                            <input type="text" class="form-control form-control-sm" id="etablissement_autocomplete"
+                                   name="etablissements" placeholder="Entrer une lettre"
+                                   value="{{ ', '.join(user.etablissements) }}, ">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Avatar</label>
+                    <input type="file" class="form-control" id="avatar" name="avatar" accept="image/jpg, image/png" >
+                </div>
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+            </form>
+        </div>
+        <div class="col-4 mt-5">
+            <img src="/avatar/{{ user.id }}" alt=".." class="img-thumbnail rounded mx-auto d-block"
+                 style="width: 200px; height: 200px;">
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            fetch(`${window.location.origin}/contrevenants`)
+                .then((response) => {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            etablissements = data.map(x => {
+                                return {value: x.id, text: `${x.etablissement}`}
+                            });
+                            autocomplete_multiple(
+                                document.getElementById("etablissement_autocomplete"),
+                                etablissements
+                            );
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.log(`Request failed: ${error}`);
+                });
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/autocomplete-multiple.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/account.js') }}"></script>
+{% endblock %}

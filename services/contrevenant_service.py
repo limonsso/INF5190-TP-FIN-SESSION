@@ -84,9 +84,10 @@ def get_contrevenant_between_date(du, au, contrevenant_id):
     connection = (TpInf5190Db()).get_connection()
     curs = connection.cursor()
     sqlQuery = """SELECT contrevenants.* FROM contrevenants
-     JOIN contraventions i on contrevenants.id = i.contrevenant_id
-     WHERE date_infraction BETWEEN ? AND ? AND contrevenant_id = ?
-    AND has_been_deleted = 0 GROUP BY contrevenants.id,proprietaire,etablissement,adresse,ville ORDER BY etablissement ASC"""
+    JOIN contraventions i on contrevenants.id = i.contrevenant_id
+    WHERE date_infraction BETWEEN ? AND ? AND contrevenant_id = ?
+    AND has_been_deleted = 0 GROUP BY contrevenants.id,proprietaire,etablissement,adresse,ville 
+    ORDER BY etablissement ASC"""
     curs.execute(sqlQuery, (du, au, contrevenant_id,))
     row = curs.fetchone()
     if row is not None:
@@ -126,7 +127,7 @@ def update_contrevenant(contrevenant: Contrevenant):
         """UPDATE contrevenants SET proprietaire=? , categorie=?, etablissement=?, adresse=?,
          ville=? WHERE id= ?""",
         (contrevenant.proprietaire, contrevenant.categorie, contrevenant.etablissement, contrevenant.adresse,
-         contrevenant.ville, date.today(), contrevenant.id,))
+         contrevenant.ville, contrevenant.id,))
     connection.commit()
     return curs.lastrowid
 

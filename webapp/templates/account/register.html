@@ -1,0 +1,60 @@
+{% extends 'main_layout.html' %}
+{% block content %}
+    <div class=" col-6 mt-5">
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h3>Inscrivez-vous</h3>
+                </div>
+            </div>
+        </div>
+        <form id="register">
+            <div class="form-group">
+                <label for="username">Nom utilisateur</label>
+                <input type="text" class="form-control" id="username" name="username">
+            </div>
+            <div class="form-group">
+                <label for="email">Adresse courriel</label>
+                <input type="text" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-12" for="date_au">Établissement</label>
+                    <div class="autocomplete col-12">
+                        <input type="hidden" id="qck-srch-contrevenant-id">
+                        <input type="text" class="form-control form-control-sm" id="etablissement_autocomplete"
+                               name="etablissement_autocomplete" placeholder="Entrer une lettre">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">s'inscrire</button>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            fetch(`${window.location.origin}/contrevenants`)
+                .then((response) => {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            etablissements = data.map(x => {
+                                return {value: x.id, text: `${x.etablissement}`}
+                            });
+                            autocomplete_multiple(
+                                document.getElementById("etablissement_autocomplete"),
+                                etablissements
+                            );
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.log(`Request failed: ${error}`);
+                });
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/autocomplete-multiple.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/account.js') }}"></script>
+{% endblock %}
