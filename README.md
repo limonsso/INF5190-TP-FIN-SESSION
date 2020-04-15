@@ -40,15 +40,15 @@ Dans le fichier `configuration\configuration.yaml` se trouve les configs **SMTP*
 - **C1** :  Un service REST permettant d'obtenir la liste des établissements ayant commis une ou plusieurs infractions. 
 Pour chaque établissement, on indique le nombre d'infractions connues.
 
--- **D3**:  Amelioration de A2 afin de pouvoir supprimer ou modifier les contrevenants retournés
+- **D3**:  Amelioration de A2 afin de pouvoir supprimer ou modifier les contrevenants retournés
 par l'outil de recherche.
 
--- **D4**: Une procédure d'authentification du type « Basic Auth » et permet de restreindre
+- **D4**: Une procédure d'authentification du type « Basic Auth » et permet de restreindre
 l'accès aux fonctionnalités de modification et suppression de D3 uniquement à un utilisateur prédéfini *(Username: **admin**, Password: **admin**)* ou créer un nouvelle utilisateur.
 
--- **E1**: Un service REST permettant à un utilisateur de se créer un profil d'utilisateur.
+- **E1**: Un service REST permettant à un utilisateur de se créer un profil d'utilisateur.
 
--- **E2**: Une page web pour invoquer le service fait en E1. Une page d’authentification. 
+- **E2**: Une page web pour invoquer le service fait en E1. Une page d’authentification. 
 Après l’authentification, une page permettant de modifier la liste des noms
 d’établissements à surveiller est disponible à la page `/account/profil`. L’utilisateur authentifié peut également téléverser une
 photo de profil
