@@ -5,6 +5,8 @@ import dateparser
 
 from db.tpinf5190_db import TpInf5190Db
 
+from db.tpinf5190_db import TpInf5190Db
+
 
 class Contrevenant(object):
 

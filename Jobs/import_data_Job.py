@@ -1,5 +1,7 @@
 from flask_apscheduler import APScheduler
 import atexit
+
+from configuration.configs import get_configuration
 from scripts.import_data_script import get_inspections_from_server, insert_inspections_to_db
 from services.email_service import send_nouveaux_contrevenants
 
@@ -19,7 +21,10 @@ class ImportDataJob:
         self.cpt += 1
 
     def start(self):
-        self.scheduler.add_job(func=self.exec, trigger="cron", minute="30", hour="20", day="*", id='1')
+        config = get_configuration()
+        job_configuration = config['job_configuration']
+        self.scheduler.add_job(func=self.exec, trigger="cron", minute=f"{job_configuration['minute']}",
+                               hour=f"{job_configuration['hour']}", day=f"{job_configuration['day']}", id='1')
         self.scheduler.start()
         # Shut down the scheduler when exiting the app
         atexit.register(lambda: self.scheduler.shutdown())

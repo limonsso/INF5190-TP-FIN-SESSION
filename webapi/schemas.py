@@ -23,3 +23,25 @@ contrevenant_update_schema = {
     },
     'additionalProperties': False
 }
+
+user_create_schema = {
+    'type': 'object',
+    'required': ['username', 'email', 'etablissements', 'password'],
+    'properties': {
+        'username': {
+            'type': 'string'
+        },
+        'email': {
+            'type': 'string'
+        },
+        'etablissements': {
+            'type': 'array'
+        },
+        'password': {
+            'type': 'string'
+        },
+
+    },
+    'additionalProperties': False
+}
+

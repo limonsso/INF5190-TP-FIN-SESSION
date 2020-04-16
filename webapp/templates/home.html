@@ -55,7 +55,7 @@
                         <div class="autocomplete col-12">
                             <input type="hidden" id="qck-srch-contrevenant-id">
                             <input type="text" class="form-control form-control-sm" id="etablissement_autocomplete"
-                                   name="etablissement_autocomplete">
+                                   name="etablissement_autocomplete" placeholder="Entrer une lettre">
                             <div class="invalid-feedback">Un établissement dans les options est réquis</div>
                         </div>
                     </div>
@@ -94,9 +94,6 @@
         </div>
         <!--    End of Container    -->
     </div>
-    <script>
-        $(document).ready(function () {
-            fill_etablissements_select()
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}
