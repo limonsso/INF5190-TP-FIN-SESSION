@@ -4,13 +4,12 @@ from datetime import datetime
 from flask import request, jsonify, render_template, make_response, session
 from flask_json_schema import JsonValidationError
 from flask_httpauth import HTTPBasicAuth
-from werkzeug.security import generate_password_hash, check_password_hash
 
 from models.contrevenant import Contrevenant
 from services.contrevenant_service import get_contrevenant_between_date, delete_contrevenant, update_contrevenant, \
     get_contrevenant, get_all_contravention_by_contrevenant_id, get_all_etablissements_with_count_contraventions, \
     get_all_contrevenants
-from services.user_service import get_user
+from services.user_service import get_user, get_user_by_session
 from webapi import api
 from webapi.schemas import contrevenant_update_schema
 from webapp import schema
@@ -21,17 +20,15 @@ auth = HTTPBasicAuth()
 @auth.verify_password
 def verify_password(username, password):
     user = get_user(username)
-    if user is not None:
+    if username is None and 'id' in session:
+        user = get_user_by_session(session['id'])
+        if user.is_admin == 1:
+            return True
+    if user is not None and user.is_admin == 1:
         hashed_password = hashlib.sha512(str(password + user.salt).encode("utf-8")).hexdigest()
         if user.password_hash == hashed_password:
             return True
     return False
-
-
-@auth.login_required
-def login_required():
-    if id in session:
-        return False
 
 
 @api.route("/contrevenants", methods=["GET"])

@@ -72,6 +72,11 @@ function fill_qck_search_table(quickSeacrhResult) {
                     <td scope="row">${elt.montant}</td>
                  </tr>`;
     });
+    if(html===''){
+        html=`<tr>
+                <td colspan="4" style="text-align: center">Aucun resultat pour cette recherche</td>
+            </tr>`
+    }
     $("#quick-search-result tbody:last-child").append(html);
 
     getPagination("#quick-search-result");

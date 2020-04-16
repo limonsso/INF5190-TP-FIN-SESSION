@@ -34,6 +34,7 @@ def get_user(username):
         user = User(row[1], row[2], [], row[0])
         user.password_hash = row[3]
         user.salt = row[4]
+        user.is_admin = row[7]
         return user
     else:
         return None
@@ -73,6 +74,7 @@ def get_user_by_session(session_id):
         user.password_hash = row[3]
         user.salt = row[4]
         user.avatar = row[5]
+        user.is_admin = row[7]
         cur.execute("""SELECT c.etablissement FROM users
              JOIN user_contrevenants uc on users.id = uc.user_id
              JOIN contrevenants c on uc.contrevenant_id = c.id
