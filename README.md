@@ -4,8 +4,8 @@ Le projet consiste à récupérer un ensemble de données provenant de la ville 
   
 ## INSTALATION  
 - Python 3.8 est la version utilisée dans ce projet
-- S'assurer que ``pip`` est installé   
-- Activer l'environent virtual **``py -m venv env``** et **``source env/bin/activate``** *(sous linux)* ou **``.\env\Scripts\activate``** *(sous windows)*  
+- S'assurer que ``pip`` et ``virtualenv`` est installé   
+- Activer l'environent virtual **``py -m venv env``** *(sous windows)*  ou **``virtualenv env``** *(sous linux)* et **``source env/bin/activate``** *(sous linux)* ou **``.\env\Scripts\activate``** *(sous windows)*  
 - Lancer la commande **``pip install requirements.txt``** pour intaller les dépendances du projet.
 - Lancer le programme a l'aide du fichier **`makefile`** à la racine du projet.
 
@@ -52,3 +52,6 @@ l'accès aux fonctionnalités de modification et suppression de D3 uniquement à
 Après l’authentification, une page permettant de modifier la liste des noms
 d’établissements à surveiller est disponible à la page `/account/profil`. L’utilisateur authentifié peut également téléverser une
 photo de profil
+
+- **F1**: Le système est entièrement déployé sur la plateforme infonuagique Heroku. 
+url: *https://tpinf5190-h20.herokuapp.com/*
