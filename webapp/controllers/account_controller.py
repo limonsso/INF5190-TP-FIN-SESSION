@@ -30,7 +30,7 @@ def login():
         return redirect("/")
     else:
         error = "Nom utilisateur ou mot de passe invalid"
-        return render_template('account/register.html', error=error)
+        return render_template('account/login.html', error=error)
 
 
 @app.route('/account/register')
