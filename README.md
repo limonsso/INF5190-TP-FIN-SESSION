@@ -1,7 +1,14 @@
 # INF5190-TP-FIN-SESSION  
 ## DESCRIPTION  
 Le projet consiste à récupérer un ensemble de données provenant de la ville de Montréal et d'offrir des services à partir de ces données. Il s'agit de données ouvertes à propos d'établissements ayant reçu des constats d'infraction lors d'inspections alimentaires.  
-  
+
+Programme: **Certificat en informatique et en développement de logiciel (4702)**
+Professeur: **Jacques Berger**
+Cour: **INF5190**
+Session: **Hiver 2020**
+Etudiant: **Ezechiel Gnepa**
+Code permanant: **GNEP09119002** 
+
 ## INSTALATION  
 - Python 3.8 est la version utilisée dans ce projet
 - S'assurer que ``pip`` et ``virtualenv`` est installé   
