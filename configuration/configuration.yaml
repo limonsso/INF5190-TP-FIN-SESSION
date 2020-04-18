@@ -7,6 +7,6 @@ email_configuration:
   'to': ['fg591091@ens.uqam.ca','egnepa@ens.uqam.ca']
 
 job_configuration:
-  'hour': '23'
-  'minute': '29'
+  'hour': '*'
+  'minute': '*/1'
   'day' : '*'
